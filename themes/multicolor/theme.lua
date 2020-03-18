@@ -10,13 +10,15 @@ local lain  = require("lain")
 local awful = require("awful")
 local wibox = require("wibox")
 local dpi   = require("beautiful.xresources").apply_dpi
+local beautiful = require("beautiful")
+local coins = require("awesome-coins")
 
 local os = os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme                                     = {}
 theme.confdir                                   = os.getenv("HOME") .. "/.config/awesome/themes/multicolor"
-theme.wallpaper                                 = theme.confdir .. "/wall.png"
+theme.wallpaper                                 = theme.confdir .. "/wall.jpg"
 theme.font                                      = "Terminus 8"
 theme.menu_bg_normal                            = "#000000"
 theme.menu_bg_focus                             = "#000000"
@@ -24,18 +26,18 @@ theme.bg_normal                                 = "#000000"
 theme.bg_focus                                  = "#000000"
 theme.bg_urgent                                 = "#000000"
 theme.fg_normal                                 = "#aaaaaa"
-theme.fg_focus                                  = "#ff8c00"
+theme.fg_focus                                  = "#de5253"
 theme.fg_urgent                                 = "#af1d18"
 theme.fg_minimize                               = "#ffffff"
 theme.border_width                              = dpi(1)
 theme.border_normal                             = "#1c2022"
-theme.border_focus                              = "#606060"
+theme.border_focus                              = "#de5253"
 theme.border_marked                             = "#3ca4d8"
 theme.menu_border_width                         = 0
 theme.menu_width                                = dpi(130)
 theme.menu_submenu_icon                         = theme.confdir .. "/icons/submenu.png"
 theme.menu_fg_normal                            = "#aaaaaa"
-theme.menu_fg_focus                             = "#ff8c00"
+theme.menu_fg_focus                             = "#de5253"
 theme.menu_bg_normal                            = "#050505dd"
 theme.menu_bg_focus                             = "#050505dd"
 theme.widget_temp                               = theme.confdir .. "/icons/temp.png"
@@ -90,8 +92,29 @@ theme.titlebar_maximized_button_normal_inactive = theme.confdir .. "/icons/title
 theme.titlebar_maximized_button_focus_inactive  = theme.confdir .. "/icons/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_active   = theme.confdir .. "/icons/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_active    = theme.confdir .. "/icons/titlebar/maximized_focus_active.png"
+theme.bitcoin_icon                              = theme.confdir .. "/icons/titlebar/bitcoin_icon16.png"
 
 local markup = lain.util.markup
+
+-- {{ Coins
+-- Settings
+local coin_settings = function()
+    if tonumber(change) >= 0 then
+        change = markup.fontfg(beautiful.font, "#87af5f", '+' .. change .. '%')
+    else
+        change = markup.fontfg(beautiful.font, "#e54c62", change .. '%')
+    end
+    widget:set_markup('$' .. markup.fontfg(beautiful.font, beautiful.fg_normal, value) ..
+                      ' (' .. change .. ') ')
+end
+
+-- Bitcoin
+local bitcoinicon = wibox.widget.imagebox(theme.bitcoin_icon)
+bitcoin = coins.coin({
+    crypto = "bitcoin",
+    settings = coin_settings
+})
+-- }}
 
 -- Textclock
 os.setlocale(os.getenv("LANG")) -- to localize the clock
@@ -112,7 +135,7 @@ theme.cal = lain.widget.cal({
 -- Weather
 local weathericon = wibox.widget.imagebox(theme.widget_weather)
 theme.weather = lain.widget.weather({
-    city_id = 2643743, -- placeholder (London)
+    city_id = 2834685, -- placeholder (London)
     notification_preset = { font = "Terminus 10", fg = theme.fg_normal },
     weather_na_markup = markup.fontfg(theme.font, "#eca4c4", "N/A "),
     settings = function()
@@ -303,6 +326,8 @@ function theme.at_screen_connect(s)
             wibox.widget.systray(),
             --mailicon,
             --theme.mail.widget,
+            bitcoinicon,
+            bitcoin,
             netdownicon,
             netdowninfo,
             netupicon,
@@ -317,8 +342,8 @@ function theme.at_screen_connect(s)
             --theme.fs.widget,
             weathericon,
             theme.weather.widget,
-            tempicon,
-            temp.widget,
+            --tempicon,
+            --temp.widget,
             baticon,
             bat.widget,
             clockicon,
