@@ -196,7 +196,7 @@ tyrannical.tags = {
     layout      = awful.layout.layouts[3],
     position    = 5,
     class       = { 
-        "psi", "psi-plus"
+        "psi", "psi-plus", "pidgin"
     },
   },
   {
