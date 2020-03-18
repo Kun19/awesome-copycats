@@ -1,7 +1,12 @@
 [submodule "lain"]
 	path = lain
-	url = https://github.com/lcpz/lain.git
-
+	url = https://github.com/Kun19/lain.git
 [submodule "freedesktop"]
 	path = freedesktop
 	url = https://github.com/lcpz/awesome-freedesktop.git
+[submodule "awesome-coins"]
+	path = awesome-coins
+	url = https://github.com/Kun19/awesome-coins.git
+[submodule "tyrannical"]
+	path = tyrannical
+	url = https://github.com/Elv13/tyrannical.git
