@@ -101,35 +101,35 @@ local file_browser = "nautilus"
 awful.util.terminal = terminal
 awful.util.tagnames = { }
 awful.layout.layouts = {
-    awful.layout.suit.floating,
-    awful.layout.suit.tile,
+    --awful.layout.suit.floating,
+    ---awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
+    --awful.layout.suit.fair,
+    --awful.layout.suit.fair.horizontal,
+    --awful.layout.suit.spiral,
+    --awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
     --awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier,
-    awful.layout.suit.corner.nw,
-    awful.layout.suit.corner.ne,
-    awful.layout.suit.corner.sw,
-    awful.layout.suit.corner.se,
-    lain.layout.cascade,
-    lain.layout.cascade.tile,
-    lain.layout.centerwork,
-    lain.layout.centerwork.horizontal,
-    lain.layout.termfair,
-    lain.layout.termfair.center,
+    --awful.layout.suit.magnifier,
+    --awful.layout.suit.corner.nw,
+    --awful.layout.suit.corner.ne,
+    --awful.layout.suit.corner.sw,
+    --awful.layout.suit.corner.se,
+    --lain.layout.cascade,
+    --lain.layout.cascade.tile,
+    --lain.layout.centerwork,
+    --lain.layout.centerwork.horizontal,
+    --lain.layout.termfair,
+    --lain.layout.termfair.center,
 }
 
 -- tyrannical {{{
 
 -- First, set some settings
 tyrannical.settings.default_layout =  awful.layout.suit.tile.left
-tyrannical.settings.master_width_factor = 0.61
+tyrannical.settings.master_width_factor = 0.5
 
 -- Setup some tags
 tyrannical.tags = {
@@ -138,7 +138,7 @@ tyrannical.tags = {
     init        = true,                   
     screen      = screen.count()>1 and 2 or 1,
     force_screen = true,
-    layout      = awful.layout.layouts[3],
+    layout      = tyrannical.settings.default_layout,
     selected    = true,
     position    = 1,
     class       = {
@@ -150,7 +150,7 @@ tyrannical.tags = {
     init        = true,
     screen      = 1,
     force_screen = true,
-    layout      = awful.layout.layouts[3],
+    layout      = tyrannical.settings.default_layout,
     position    = 2,
     class       = {
       "gnome-terminal"
@@ -161,17 +161,17 @@ tyrannical.tags = {
     init        = true,
     screen      = screen.count()>1 and 2 or 1,
     force_screen = true,
-    layout      = awful.layout.layouts[3],
+    layout      = tyrannical.settings.default_layout,
     position    = 3,
     class = {
-      "sublime_text", "gedit", "sublime"
+      "sublime_text", "gedit", "sublime", "zim"
     }
   } ,
   {
     name        = "explorer",
     init        = false,
     force_screen = true,
-    layout      = awful.layout.layouts[3],
+    layout      = tyrannical.settings.default_layout,
     class       = {
       "nautilus"
     }
@@ -181,7 +181,7 @@ tyrannical.tags = {
     init        = true,
     screen      = screen.count()>1 and 2 or 1,
     force_screen = true,
-    layout      = awful.layout.layouts[3],
+    layout      = tyrannical.settings.default_layout,
     position    = 4,
     class       = {
       "thunderbird"
@@ -193,7 +193,7 @@ tyrannical.tags = {
     screen      = 1,
     force_screen = true,
     exclusive   = false,
-    layout      = awful.layout.layouts[3],
+    layout      = tyrannical.settings.default_layout,
     position    = 5,
     class       = { 
         "psi", "psi-plus", "pidgin"
@@ -205,7 +205,7 @@ tyrannical.tags = {
     screen      = {1,2},
     force_screen = true,
     exclusive   = false,
-    layout      = awful.layout.layouts[3],
+    layout      = tyrannical.settings.default_layout,
     position    = 6,
     class       = { },
   },
@@ -356,9 +356,9 @@ globalkeys = my_table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description = "show help", group="awesome"}),
     -- Tag browsing
-    awful.key({ modkey,           }, "Prior",   awful.tag.viewprev,
+    awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "Next",  awful.tag.viewnext,
+    awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
     awful.key({ altkey,           }, "Tab", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
@@ -470,7 +470,7 @@ globalkeys = my_table.join(
 
     awful.key({ modkey,           }, "p",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
-    awful.key({ modkey,           }, "h",     function () awful.tag.incmwfact(-0.05)          end,
+    awful.key({ modkey,           }, "g",     function () awful.tag.incmwfact(-0.05)          end,
               {description = "decrease master width factor", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "p",     function () awful.tag.incnmaster( 1, nil, true) end,
               {description = "increase the number of master clients", group = "layout"}),
@@ -637,14 +637,14 @@ globalkeys = my_table.join(
 )
 
 clientkeys = my_table.join(
-    awful.key({ altkey, "Shift"   }, "m",      lain.util.magnify_client,
+    awful.key({ modkey,     }, "l",      lain.util.magnify_client,
               {description = "magnify client", group = "client"}),
-    awful.key({ modkey,           }, "f",
-        function (c)
-            c.fullscreen = not c.fullscreen
-            c:raise()
-        end,
-        {description = "toggle fullscreen", group = "client"}),
+    --awful.key({ modkey,           }, "f",
+        --function (c)
+            --c.fullscreen = not c.fullscreen
+            --c:raise()
+        --end,
+        --{description = "toggle fullscreen", group = "client"}),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
@@ -662,7 +662,7 @@ clientkeys = my_table.join(
             c.minimized = true
         end ,
         {description = "minimize", group = "client"}),
-    awful.key({ modkey,           }, "m",
+    awful.key({ modkey,           }, "f",
         function (c)
             c.maximized = not c.maximized
             c:raise()
@@ -847,9 +847,9 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 awful.util.spawn_with_shell("~/.config/awesome/run_once vmware-user")
-awful.util.spawn_with_shell("~/.config/awesome/run_once pidgin")
-awful.util.spawn_with_shell("thunderbird")
-awful.util.spawn_with_shell("xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &")
+--awful.util.spawn_with_shell("~/.config/awesome/run_once pidgin")
+--awful.util.spawn_with_shell("thunderbird")
+--awful.util.spawn_with_shell("xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &")
 
 -- possible workaround for tag preservation when switching back to default screen:
 -- https://github.com/lcpz/awesome-copycats/issues/251
