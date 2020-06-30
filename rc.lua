@@ -88,8 +88,8 @@ local themes = {
 }
 
 local chosen_theme = themes[5]
-local modkey       = "Mod4"
-local altkey       = "Mod1"
+local modkey       = "Mod1"
+local altkey       = "Mod4"
 local terminal     = "gnome-terminal"
 local editor       = os.getenv("EDITOR") or "vim"
 local gui_editor   = "subl"
@@ -136,19 +136,31 @@ tyrannical.tags = {
   {
     name        = "www",             
     init        = true,                   
-    screen      = screen.count()>1 and 2 or 1,
+    screen      = {1,2},
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
     selected    = true,
     position    = 1,
     class       = {
-      "Opera", "Firefox","Chromium"
+      "Opera", "Firefox","Chromium", "firefox-esr"
+    }
+  } ,
+  {
+    name        = "burp",             
+    init        = true,                   
+    screen      = {1,2},
+    force_screen = true,
+    layout      = tyrannical.settings.default_layout,
+    selected    = true,
+    position    = 1,
+    class       = {
+      "burp", "burpsuite"
     }
   } ,
   {
     name        = "terminal",
     init        = true,
-    screen      = 1,
+    screen      = {1,2},
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
     position    = 2,
@@ -159,7 +171,7 @@ tyrannical.tags = {
   {
     name = "text",
     init        = true,
-    screen      = screen.count()>1 and 2 or 1,
+    screen      = {1,2},
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
     position    = 3,
@@ -169,7 +181,8 @@ tyrannical.tags = {
   } ,
   {
     name        = "explorer",
-    init        = false,
+    screen      = {1,2},
+    init        = true,
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
     class       = {
@@ -179,24 +192,24 @@ tyrannical.tags = {
   {
     name        = "mail",
     init        = true,
-    screen      = screen.count()>1 and 2 or 1,
+    screen      = {1,2},
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
     position    = 4,
     class       = {
-      "thunderbird"
+      "thunderbird", "evolution"
     } ,
   },
   {
     name        = "chat",
     init        = true,
-    screen      = 1,
+    screen      = {1,2},
     force_screen = true,
     exclusive   = false,
     layout      = tyrannical.settings.default_layout,
     position    = 5,
     class       = { 
-        "psi", "psi-plus", "pidgin"
+        "psi", "psi-plus", "pidgin", "Mattermost", "teams"
     },
   },
   {
@@ -356,9 +369,9 @@ globalkeys = my_table.join(
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description = "show help", group="awesome"}),
     -- Tag browsing
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
+    awful.key({ modkey,           }, "Prior",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext,
+    awful.key({ modkey,           }, "Next",  awful.tag.viewnext,
               {description = "view next", group = "tag"}),
     awful.key({ altkey,           }, "Tab", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
@@ -637,7 +650,7 @@ globalkeys = my_table.join(
 )
 
 clientkeys = my_table.join(
-    awful.key({ modkey,     }, "l",      lain.util.magnify_client,
+    awful.key({ modkey,     }, "i",      lain.util.magnify_client,
               {description = "magnify client", group = "client"}),
     --awful.key({ modkey,           }, "f",
         --function (c)
@@ -847,6 +860,8 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 awful.util.spawn_with_shell("~/.config/awesome/run_once vmware-user")
+awful.util.spawn_with_shell("~/.config/awesome/run_once mattermost-desktop")
+awful.util.spawn_with_shell("~/.config/awesome/run_once evolution")
 --awful.util.spawn_with_shell("~/.config/awesome/run_once pidgin")
 --awful.util.spawn_with_shell("thunderbird")
 --awful.util.spawn_with_shell("xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &")
