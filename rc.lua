@@ -87,7 +87,7 @@ local themes = {
     "vertex",          -- 10
 }
 
-local chosen_theme = themes[5]
+local chosen_theme = themes[7]
 local modkey       = "Mod1"
 local altkey       = "Mod4"
 local terminal     = "gnome-terminal"
@@ -154,7 +154,7 @@ tyrannical.tags = {
     selected    = true,
     position    = 1,
     class       = {
-      "burp", "burpsuite"
+      "install4j-burp-StartBurp"
     }
   } ,
   {
@@ -171,22 +171,22 @@ tyrannical.tags = {
   {
     name = "text",
     init        = true,
-    screen      = {1,2},
+    screen      = screen.count()>1 and 2 or 1,
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
     position    = 3,
     class = {
-      "sublime_text", "gedit", "sublime", "zim"
+      "sublime_text", "gedit", "sublime", "subl", "zim"
     }
   } ,
   {
     name        = "explorer",
-    screen      = {1,2},
+    screen      = screen.count()>1 and 2 or 1,
     init        = true,
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
     class       = {
-      "nautilus"
+      "org.gnome.Nautilus"
     }
   } ,
   {
@@ -203,7 +203,7 @@ tyrannical.tags = {
   {
     name        = "chat",
     init        = true,
-    screen      = {1,2},
+    screen      = screen.count()>1 and 2 or 1,
     force_screen = true,
     exclusive   = false,
     layout      = tyrannical.settings.default_layout,
@@ -862,9 +862,10 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.util.spawn_with_shell("~/.config/awesome/run_once vmware-user")
 awful.util.spawn_with_shell("~/.config/awesome/run_once mattermost-desktop")
 awful.util.spawn_with_shell("~/.config/awesome/run_once evolution")
+awful.util.spawn_with_shell("~/.config/awesome/run_once flashfocus")
 --awful.util.spawn_with_shell("~/.config/awesome/run_once pidgin")
 --awful.util.spawn_with_shell("thunderbird")
---awful.util.spawn_with_shell("xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &")
+awful.util.spawn_with_shell("xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &")
 
 -- possible workaround for tag preservation when switching back to default screen:
 -- https://github.com/lcpz/awesome-copycats/issues/251

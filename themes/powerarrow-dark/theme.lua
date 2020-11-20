@@ -10,23 +10,25 @@ local lain  = require("lain")
 local awful = require("awful")
 local wibox = require("wibox")
 local dpi   = require("beautiful.xresources").apply_dpi
+local beautiful = require("beautiful")
+local coins = require("awesome-coins")
 
 local os = os
 local my_table = awful.util.table or gears.table -- 4.{0,1} compatibility
 
 local theme                                     = {}
 theme.dir                                       = os.getenv("HOME") .. "/.config/awesome/themes/powerarrow-dark"
-theme.wallpaper                                 = theme.dir .. "/wall.png"
+theme.wallpaper                                 = theme.dir .. "/wall2.jpg"
 theme.font                                      = "Terminus 9"
 theme.fg_normal                                 = "#DDDDFF"
-theme.fg_focus                                  = "#EA6F81"
+theme.fg_focus                                  = "#3D89C9"
 theme.fg_urgent                                 = "#CC9393"
 theme.bg_normal                                 = "#1A1A1A"
 theme.bg_focus                                  = "#313131"
 theme.bg_urgent                                 = "#1A1A1A"
-theme.border_width                              = dpi(1)
+theme.border_width                              = dpi(2)
 theme.border_normal                             = "#3F3F3F"
-theme.border_focus                              = "#7F7F7F"
+theme.border_focus                              = "#3D89C9"
 theme.border_marked                             = "#CC9393"
 theme.tasklist_bg_focus                         = "#1A1A1A"
 theme.titlebar_bg_focus                         = theme.bg_focus
@@ -87,9 +89,30 @@ theme.titlebar_maximized_button_focus_active    = theme.dir .. "/icons/titlebar/
 theme.titlebar_maximized_button_normal_active   = theme.dir .. "/icons/titlebar/maximized_normal_active.png"
 theme.titlebar_maximized_button_focus_inactive  = theme.dir .. "/icons/titlebar/maximized_focus_inactive.png"
 theme.titlebar_maximized_button_normal_inactive = theme.dir .. "/icons/titlebar/maximized_normal_inactive.png"
+theme.bitcoin_icon                              = theme.dir .. "/icons/titlebar/bitcoin_icon16.png"
 
 local markup = lain.util.markup
 local separators = lain.util.separators
+
+-- {{ Coins
+-- Settings
+local coin_settings = function()
+    if tonumber(change) >= 0 then
+        change = markup.fontfg(beautiful.font, "#87af5f", '+' .. change .. '%')
+    else
+        change = markup.fontfg(beautiful.font, "#e54c62", change .. '%')
+    end
+    widget:set_markup('$' .. markup.fontfg(beautiful.font, beautiful.fg_normal, value) ..
+                      ' (' .. change .. ') ')
+end
+
+-- Bitcoin
+local bitcoinicon = wibox.widget.imagebox(theme.bitcoin_icon)
+bitcoin = coins.coin({
+    crypto = "bitcoin",
+    settings = coin_settings
+})
+-- }}
 
 -- Textclock
 local clockicon = wibox.widget.imagebox(theme.widget_clock)
@@ -192,7 +215,7 @@ local temp = lain.widget.temp({
 })
 
 -- / fs
-local fsicon = wibox.widget.imagebox(theme.widget_hdd)
+--local fsicon = wibox.widget.imagebox(theme.widget_hdd)
 --[[ commented because it needs Gio/Glib >= 2.54
 theme.fs = lain.widget.fs({
     notification_preset = { fg = theme.fg_normal, bg = theme.bg_normal, font = "Terminus 10" },
@@ -307,14 +330,16 @@ function theme.at_screen_connect(s)
             layout = wibox.layout.fixed.horizontal,
             wibox.widget.systray(),
             spr,
+            bitcoinicon,
+            bitcoin,
+            --arrl_ld,
+            --wibox.container.background(mpdicon, theme.bg_focus),
+            --wibox.container.background(theme.mpd.widget, theme.bg_focus),
             arrl_ld,
-            wibox.container.background(mpdicon, theme.bg_focus),
-            wibox.container.background(theme.mpd.widget, theme.bg_focus),
-            arrl_dl,
-            volicon,
-            theme.volume.widget,
-            arrl_ld,
-            wibox.container.background(mailicon, theme.bg_focus),
+            wibox.container.background(volicon, theme.bg_focus),
+            wibox.container.background(theme.volume.widget, theme.bg_focus),
+            --arrl_ld,
+            --wibox.container.background(mailicon, theme.bg_focus),
             --wibox.container.background(theme.mail.widget, theme.bg_focus),
             arrl_dl,
             memicon,
@@ -322,10 +347,10 @@ function theme.at_screen_connect(s)
             arrl_ld,
             wibox.container.background(cpuicon, theme.bg_focus),
             wibox.container.background(cpu.widget, theme.bg_focus),
-            arrl_dl,
-            tempicon,
-            temp.widget,
-            arrl_ld,
+            --arrl_dl,
+            --tempicon,
+            --temp.widget,
+            --arrl_ld,
             wibox.container.background(fsicon, theme.bg_focus),
             --wibox.container.background(theme.fs.widget, theme.bg_focus),
             arrl_dl,
