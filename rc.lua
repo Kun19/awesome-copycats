@@ -101,7 +101,7 @@ local file_browser = "nautilus"
 awful.util.terminal = terminal
 awful.util.tagnames = { }
 awful.layout.layouts = {
-    --awful.layout.suit.floating,
+    awful.layout.suit.floating,
     ---awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
@@ -144,7 +144,7 @@ tyrannical.tags = {
     class       = {
       "Opera", "Firefox","Chromium", "firefox-esr"
     }
-  } ,
+  },
   {
     name        = "burp",             
     init        = true,                   
@@ -152,50 +152,73 @@ tyrannical.tags = {
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
     selected    = true,
-    position    = 1,
+    position    = 2,
     class       = {
       "install4j-burp-StartBurp"
     }
-  } ,
+  },
+  {
+    name        = "android",
+    init        = false,
+    screen      = 1,
+    force_screen = true,
+    layout      = tyrannical.settings.default_layout,
+    position    = 3,
+    class       = {
+      "jetbrains-studio"
+    } ,
+  },
   {
     name        = "terminal",
     init        = true,
     screen      = {1,2},
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
-    position    = 2,
+    position    = 4,
     class       = {
       "gnome-terminal"
     }
-  } ,
+  },
   {
     name = "text",
     init        = true,
     screen      = screen.count()>1 and 2 or 1,
     force_screen = true,
-    layout      = tyrannical.settings.default_layout,
-    position    = 3,
+    layout      = awful.layout.suit.max,
+    position    = 5,
     class = {
       "sublime_text", "gedit", "sublime", "subl", "zim"
     }
-  } ,
+  },
   {
     name        = "explorer",
     screen      = screen.count()>1 and 2 or 1,
     init        = true,
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
+    position    = 6,
     class       = {
       "org.gnome.Nautilus"
     }
-  } ,
+  },
+    {
+    name        = "docs",
+    screen      = {1,2},
+    init        = true,
+    force_screen = true,
+    layout      = awful.layout.suit.max,
+    position    = 7,
+    class       = {
+      "evince", "libreoffice", "libreoffice-calc"
+    }
+  },
   {
     name        = "mail",
     init        = true,
-    screen      = {1,2},
+    screen      = 1,
     force_screen = true,
     layout      = tyrannical.settings.default_layout,
-    position    = 4,
+    position    = 8,
     class       = {
       "thunderbird", "evolution"
     } ,
@@ -206,10 +229,10 @@ tyrannical.tags = {
     screen      = screen.count()>1 and 2 or 1,
     force_screen = true,
     exclusive   = false,
-    layout      = tyrannical.settings.default_layout,
-    position    = 5,
+    layout      = awful.layout.suit.max,
+    position    = 9,
     class       = { 
-        "psi", "psi-plus", "pidgin", "Mattermost", "teams"
+        "psi", "psi-plus", "pidgin", "Mattermost", "microsoft teams - preview"
     },
   },
   {
@@ -219,8 +242,10 @@ tyrannical.tags = {
     force_screen = true,
     exclusive   = false,
     layout      = tyrannical.settings.default_layout,
-    position    = 6,
-    class       = { },
+    position    = 10,
+    class       = {
+        "keepass2"
+    },
   },
 }
 
@@ -862,7 +887,7 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.util.spawn_with_shell("~/.config/awesome/run_once vmware-user")
 awful.util.spawn_with_shell("~/.config/awesome/run_once mattermost-desktop")
 awful.util.spawn_with_shell("~/.config/awesome/run_once evolution")
-awful.util.spawn_with_shell("~/.config/awesome/run_once flashfocus")
+--awful.util.spawn_with_shell("~/.config/awesome/run_once flashfocus")
 --awful.util.spawn_with_shell("~/.config/awesome/run_once pidgin")
 --awful.util.spawn_with_shell("thunderbird")
 awful.util.spawn_with_shell("xcompmgr -c -C -t-5 -l-5 -r4.2 -o.55 &")
